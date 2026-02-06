@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Rose Day 🌹</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .card {
+      background: rgba(255,255,255,0.9);
+      width: 90%;
+      max-width: 420px;
+      border-radius: 20px;
+      padding: 30px 25px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      animation: fadeIn 1.2s ease;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      color: #c2185b;
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+    .rose {
+      font-size: 3rem;
+      animation: float 3s ease-in-out infinite;
+    }
+    p {
+      margin: 15px 0;
+      font-size: 1rem;
+      color: #444;
+    }
+    button {
+      margin-top: 15px;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 25px;
+      background: linear-gradient(135deg, #e91e63, #c2185b);
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    .hidden-msg {
+      display: none;
+      margin-top: 15px;
+      font-style: italic;
+      color: #880e4f;
+      min-height: 3em;
+    }
+    .petal {
+      position: absolute;
+      top: -50px;
+      color: rgba(194,24,91,0.8);
+      animation: fall linear infinite;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes fall {
+      to { transform: translateY(110vh) rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="rose">🌹</div>
+    <h1>Happy Rose Day, <span id="herName">Diksha, My Love</span></h1>
+    <p>This rose carries my feelings, soft, pure, and meant only for you.</p>
+    <button id="revealBtn">Tap to feel something special</button>
+    <div class="hidden-msg" id="message"></div>
+    <p style="margin-top:12px;color:#555;font-size:0.9rem;">— <span id="myName">Your Tanish</span></p>
+  </div>
+
+  <script>
+    // Typed messages configuration
+    const messages = [
+      "Just like this rose, my care for you grows quietly but beautifully 🌸",
+      "Every smile of yours feels like a fresh bloom in my day 🌹",
+      "On this Rose Day, I just want you to know that I love you soo much 💖"
+    ];
+
+    let msgIndex = 0;
+    let charIndex = 0;
+    let typingTimeout = null;
+
+    const messageEl = document.getElementById('message');
+    const buttonEl = document.getElementById('revealBtn');
+
+    buttonEl.addEventListener('click', showMessage);
+
+    function showMessage() {
+      messageEl.style.display = 'block';
+      messageEl.innerHTML = '';
+      msgIndex = 0;
+      charIndex = 0;
+      if (typingTimeout) clearTimeout(typingTimeout);
+      typeNextChar();
+    }
+
+    function typeNextChar() {
+      const currentMessage = messages[msgIndex];
+
+      if (charIndex < currentMessage.length) {
+        messageEl.innerHTML += currentMessage.charAt(charIndex);
+        charIndex++;
+        typingTimeout = setTimeout(typeNextChar, 50);
+      } else {
+        typingTimeout = setTimeout(() => {
+          messageEl.innerHTML = '';
+          charIndex = 0;
+          msgIndex = (msgIndex + 1) % messages.length;
+          typeNextChar();
+        }, 1400);
+      }
+    }
+
+    // Falling petals animation
+    function createPetal() {
+      const petal = document.createElement('div');
+      petal.className = 'petal';
+      petal.textContent = '🌸';
+      petal.style.left = Math.random() * 100 + 'vw';
+      petal.style.animationDuration = 4 + Math.random() * 3 + 's';
+      petal.style.fontSize = 14 + Math.random() * 20 + 'px';
+      document.body.appendChild(petal);
+      setTimeout(() => petal.remove(), 7000);
+    }
+
+    setInterval(createPetal, 400);
+  </script>
+</body>
+</html>
